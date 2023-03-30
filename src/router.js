@@ -8,9 +8,9 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
-        path:"/",
-        name:"index",
-        component: IndexPage,
+      path:"/",
+      name:"index",
+      component: IndexPage,
     }
   ]
 });
