@@ -24,8 +24,11 @@ export default{
     width: 70px;
 }
 .navbar{
-    position: sticky;
+    position: fixed;
+    right: 0;
+    left: 0;
     background-color: white;
+    border-bottom: 1px rgb(231, 231, 231) solid;
 }
 
 h3{
