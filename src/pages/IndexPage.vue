@@ -16,6 +16,13 @@
                     </div>
                 </div>
             </div>
+            <div class="m-4 d-flex justify-content-center">
+                <button v-if="btnPrev" @click="prevpage" class="btn btn-primary m-1">Precedente</button>
+                <button v-else class="btn btn-primary" disabled>Precedente</button>
+
+                <button v-if="btnNext" @click="nextpage" class="btn btn-primary m-1">Avanti</button>
+                <button v-else class="btn btn-primary" disabled>Avanti</button>
+            </div>
         </div>
         <div v-else class="d-flex flex-column align-items-center justify-content-center loader-contenitore">
             <div class="loader"></div>
@@ -31,7 +38,10 @@ import axios from "axios";
 export default{
     data(){
         return{
+            response:[],
             perfumes:[],
+            btnNext:"",
+            btnPrev:"",
             backendURL:"http://127.0.0.1:8000/storage/"
         }
     },
@@ -39,10 +49,30 @@ export default{
     methods:{
         fetchAllPerfumes(){
             axios.get("http://localhost:8000/api/perfumes").then((resp)=>{
-                console.log(resp)
-                this.perfumes=resp.data.results
+                this.response=resp.data
+                this.perfumes=resp.data.results.data
+                this.btnNext=resp.data.results.next_page_url
+                this.btnPrev=resp.data.results.prev_page_url
                 })
         },
+        nextpage(){
+            axios.get(this.btnNext).then((resp)=>{
+                console.log("ciao")
+                this.response=resp.data
+                this.perfumes=resp.data.results.data
+                this.btnNext=resp.data.results.next_page_url
+                this.btnPrev=resp.data.results.prev_page_url
+            })
+        },
+        prevpage(){
+            axios.get(this.btnPrev).then((resp)=>{
+                console.log("ciao")
+                this.response=resp.data
+                this.perfumes=resp.data.results.data
+                this.btnNext=resp.data.results.next_page_url
+                this.btnPrev=resp.data.results.prev_page_url
+            })
+        }
     },
     mounted(){
         this.fetchAllPerfumes()
